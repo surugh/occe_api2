@@ -1,0 +1,4 @@
+PRIVATE = {
+    'access': '',
+    'secret': ''
+}
