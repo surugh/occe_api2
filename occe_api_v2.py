@@ -322,7 +322,7 @@ class Occe:
                     price=price,
                     balanceVersion=balance_version)
 
-        req = self.call_api(market.lower() + '/orders', params=data, get=False)
+        req = self.call_api(market.lower() + '/orders/', params=data, get=False)
         return req
 
     def get_server_time(self):
