@@ -169,7 +169,7 @@ class Occe:
         balances = self.get_balances()['data']['currencies']
         balance = []
         for info in balances:
-            if info['name'] == coin.lower():
+            if info['name'] == coin.upper():
                 balance.append(info['value'])
         return balance[0]
 
