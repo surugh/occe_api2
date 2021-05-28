@@ -291,7 +291,7 @@ class Occe:
         :return:  {"result": "success", "info": "Order was deleted"}
         :type: dict
         """
-        req = self.call_api(pair.lower() + '/orders' + str(order_id), get=False, delete=True)
+        req = self.call_api(pair.lower() + '/orders/' + str(order_id), get=False, delete=True)
         return req
 
     def create_order(self, market, order_type, amount, price):
@@ -322,7 +322,7 @@ class Occe:
                     price=price,
                     balanceVersion=balance_version)
 
-        req = self.call_api(market.lower() + '/orders/', params=data, get=False)
+        req = self.call_api(market.lower() + '/orders', params=data, get=False)
         return req
 
     def get_server_time(self):
@@ -416,8 +416,11 @@ class Occe:
         :return: Все активные ордера по выбранной паре | All active orders for the selected pair
         :type: dict
         """
-        req = requests.get(self.api_url_public + 'orders/' + pair.lower())
-        return req.json()
+        req = requests.get(self.api_url_public + 'orders/' + pair.lower()).json()
+        sell = sorted(req['data']['sellOrders'], key=lambda order: order['price'])
+        buy = sorted(req['data']['buyOrders'], key=lambda order: order['price'], reverse=True)
+        orders = dict(result='success', data=dict(buyOrders=buy, sellOrders=sell))
+        return orders
 
 
 if __name__ == '__main__':
@@ -428,7 +431,8 @@ if __name__ == '__main__':
 
     try:
         print(occe.get_server_time())
-        print(occe.get_trade_history('IDNA_UAH'))
+        # print(occe.get_trade_history())
+        # print(occe.get_trade_history('IDNA_UAH'))
         # print(occe.get_market_orders('idna_usdt'))
         # print(occe.get_balances())
         # print(occe.get_balance('RUB'))
@@ -442,7 +446,7 @@ if __name__ == '__main__':
         'currency_buy': 'tlr', 'currency_sell': 'rub',
         'created': '2021-05-14T19:24:58.638Z', 'user_id': '932c2e12-7b30-4961-a453-1d17aa8ddf5b'}
         """
-        # print(occe.cancel_order('tlr_rub', '40271'))
+        # print(occe.cancel_order('tlr_rub', 40271))
         # print(occe.create_order('idna_rub', 'buy', 40.1, 11.1))
 
     except OcceException as ex_err:
