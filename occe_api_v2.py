@@ -383,6 +383,44 @@ class Occe:
             req = requests.get(self.api_url_public + 'info/')
         return req.json()
 
+    def get_markets_list(self, filter_by=False, quoted=None, base=None):
+        """
+            Получает список пар имеющихся на бирже | Gets a list of pairs available on the exchange
+
+            Установка параметра filter_by в значение истина,
+            позволяет фильтровать список по базовой и|или котируемой валюте(ам)
+
+            Setting the filter_by parameter to true
+            allows you to filter the list by the base and / or quoted currency (s)
+
+        :param filter_by: Предоставляет доступ к фильтрам | Provides access to filters
+        :type: bool
+
+        :param quoted: Котируемая валюта | Quoted currency
+        :type: str
+
+        :param base: Базовая валюта | Base currency
+        :type: str
+
+        :return:
+        :type: list
+        """
+        r = requests.get(self.api_url_public + 'info/').json()
+        markets_data = r['data']['coinInfo']
+        markets_list = []
+        for market_info in markets_data:
+            pair = market_info['pair']
+            if filter_by:
+                if base:
+                    if pair.startswith(base.lower()):
+                        markets_list.append(pair)
+                if quoted:
+                    if pair.endswith(quoted.lower()):
+                        markets_list.append(pair)
+            else:
+                markets_list.append(pair)
+        return markets_list
+
     def get_market_orders(self, pair):
         """
         ex.
