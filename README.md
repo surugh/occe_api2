@@ -1,6 +1,8 @@
-# occe_api2
-[Occe.io](http://occe.io/) API python wrapper
-  
+# occe_api2 ! Устарело ! Outdated !
+[Occe.io](http://occe.io/)  
+
+[NEW API v3 python wrapper](https://github.com/surugh/occe_api_v3)  
+
 [Документация | Documentation](http://occe.io/info#api)  
 [Телеграм | Telegram](https://t.me/occeio)
   
